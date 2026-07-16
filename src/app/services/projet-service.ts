@@ -15,9 +15,10 @@ export class ProjetService {
 
   constructor(private http: HttpClient) { }
 
+  // --- Public ---
 
-  getAllProjets() {
-    return this.http.get<Projets[]>(`${this.baseUrl}/projets`);
+  getAllProjets(): Observable<Projet[]> {
+    return this.http.get<Projet[]>(this.baseUrl);
   }
 
   // --- Admin ---
