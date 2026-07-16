@@ -1,1 +1,118 @@
-<p>competences-admin works!</p>
+<div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-semibold text-gray-800">Compétences</h1>
+    <button (click)="openCreateModal()"
+            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+      + Nouvelle compétence
+    </button>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50 text-gray-600 text-sm">
+      <tr>
+        <th class="px-4 py-3">Nom</th>
+        <th class="px-4 py-3">Catégorie</th>
+        <th class="px-4 py-3">Niveau</th>
+        <th class="px-4 py-3 text-right">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (competence of competences(); track competence.id) {
+          <tr class="border-t border-gray-100">
+            <td class="px-4 py-3 font-medium text-gray-800">{{ competence.nom }}</td>
+            <td class="px-4 py-3">
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                {{ competence.categorie }}
+              </span>
+            </td>
+            <td class="px-4 py-3">
+              <div class="flex gap-1">
+                @for (i of [1,2,3,4,5]; track i) {
+                  <span class="w-2 h-2 rounded-full" [class.bg-blue-600]="i <= competence.niveau" [class.bg-gray-200]="i > competence.niveau"></span>
+                }
+              </div>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button (click)="openEditModal(competence)" class="text-blue-600 hover:underline text-sm mr-3">
+                Modifier
+              </button>
+              <button (click)="deleteCompetence(competence.id)" class="text-red-600 hover:underline text-sm">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="px-4 py-8 text-center text-gray-400">Aucune compétence pour l'instant</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (isModalOpen()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-xl shadow-lg w-full max-w-md">
+
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+          <h2 class="text-lg font-semibold text-gray-800">
+            {{ isEditMode() ? 'Modifier la compétence' : 'Nouvelle compétence' }}
+          </h2>
+          <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600">✕</button>
+        </div>
+
+        <form (ngSubmit)="onSubmit()" #competenceForm="ngForm" class="p-6 flex flex-col gap-4">
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+            <input type="text" name="nom" [(ngModel)]="formData.nom" required
+                   placeholder="Angular, Spring Boot..."
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+            <select name="categorie" [(ngModel)]="formData.categorie" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Niveau : {{ formData.niveau }}/5
+            </label>
+            <input type="range" name="niveau" [(ngModel)]="formData.niveau" min="1" max="5"
+                   class="w-full">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Ordre d'affichage</label>
+            <input type="number" name="ordreAffichage" [(ngModel)]="formData.ordreAffichage"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          @if (errorMessage()) {
+            <p class="text-red-600 text-sm">{{ errorMessage() }}</p>
+          }
+
+          <div class="flex justify-end gap-3 mt-2">
+            <button type="button" (click)="closeModal()"
+                    class="px-4 py-2 rounded-md text-gray-600 hover:bg-gray-100 transition-colors">
+              Annuler
+            </button>
+            <button type="submit" [disabled]="!competenceForm.valid || isSaving()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:bg-gray-400">
+              @if (isSaving()) { Enregistrement... } @else { Enregistrer }
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  }
+
+</div>
