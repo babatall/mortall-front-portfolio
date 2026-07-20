@@ -7,14 +7,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./public/home/home').then(m => m.Home)
   },
-  {
-    path: 'projets',
-    loadComponent: () => import('./public/projets/projets').then(m => m.Projets)
-  },
-  {
-    path: 'contact',
-    loadComponent: () => import('./public/contact/contact').then(m => m.Contact)
-  },
+
   {
     path: 'login',
     loadComponent: () => import('./auth/login/login').then(m => m.Login)
