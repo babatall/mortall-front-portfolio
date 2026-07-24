@@ -37,29 +37,22 @@ export class Home implements OnInit {
   formations: Formation[]= [
     {
       titre: 'Master Génie Logiciel',
-      etablissement: 'Université Cheikh Hamidou Kane - UCHK',
-      periode: 'En cours',
+      etablissement: 'UCHK',
+      periode: '2024 - 2026',
       type: 'diplome'
-    },
-    {
-      titre: 'Certification Flutter',
-      etablissement: 'ForceN',
-      periode: '2025',
-      type: 'certificat'
-    },
-    {
-      titre: 'Certification Angular ',
-      etablissement: 'ForceN',
-      periode: '2024',
-      type: 'certificat'
     },
     {
       titre: 'Licence Informatique',
-      etablissement: 'Université Cheikh Hamidou Kane - UCHK',
+      etablissement: 'UCHK',
       periode: '2021 - 2024',
       type: 'diplome'
+    },
+    {
+      titre: 'Spring Boot Certification',
+      etablissement: 'Udemy',
+      periode: '2025',
+      type: 'certificat'
     }
-
   ];
 
 
